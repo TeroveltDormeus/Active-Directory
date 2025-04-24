@@ -16,13 +16,18 @@ The lab aims to provide a hands-on experience in setting up a virtualized enviro
 - Microsoft Windows 10: As the target machine
 - Kali Linux: As an attacker machine for simulation using the Hydra tool.
 
+
+Step 1 Draw a diagram of the project on draw.io to visually understand the project.
+
+
 <img src="https://i.imgur.com/0GZQuMB.png">
 
 
 
 <p/>
 
-<h2>Install Windows 10 iso <a href="https://www.microsoft.com/en-us/software-download/windows10">Windows 10 Image</h2>
+<h2>Install Oracle VirtualBox <a href="https://www.virtualbox.org/">VirtualBox ISO</h2>
+<h2>Install Windows 10 iso <a href="https://www.microsoft.com/en-us/software-download/windows10">Windows 10 ISO</h2>
 
 Select the edition
 
