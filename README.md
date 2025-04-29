@@ -173,6 +173,318 @@ Summary
 
 You should now have Oracle VM VirtualBox Manager installed, along with four VMs running Windows 10, Kali Linux, Windows Server, and Splunk Server.
 
+<h2>Phase 2</h2>
+
+
+In Virtual Box, navigate to Tools > Network > NAT Networks > Create
+Refer to screenshot below for configuration details
+
+
+<img src="https://i.imgur.com/8Vl8gjI.png">
+
+
+Click "Apply"
+
+Navigate to each VM > Settings > Network
+
+Refer to screenshot below for configuration details.
+
+Repeat the above 2 steps for each VM
+
+Navigate to each VM > Settings > Network
+
+Refer to screenshot above for configuration details.
+
+Next, start Splunk VM
+
+run: ip a
+
+this will display current IP address, which will need to be updated to static IP 192.168.10.10/24
+
+To set a static IP on Splunk server:
+
+Run: sudo nano /etc/netplan/00-installer-config.yaml
+
+tab to auto-complete, should only have one file
+
+
+network: 
+
+   ethernet:
+   
+     enp0s3:
+       dhcp4: no
+       addresses: [192.168.10.10/24]
+       nameservers:
+             addresses: [8.8.8.8]
+       routes:
+        - to: default
+          via: 192.168.10.1
+ version: 2
+
+ 
+ Save configuration
+ 
+Run: sudo netplan apply
+
+Run: ip a
+
+This will verify if IP address persists and is set to 192.168.10.10/24
+
+Reboot
+
+Verify connection by running: ping google.com
+
+The steps above did not work for me as I had a different configuration file, but this turned out to be a great opportunity to troubleshoot and learn more. The configuration file on my Splunk server was 50-cloud-init.yaml, meaning our IP updates wouldn’t persist after a reboot. To resolve this, I created a custom 00-installer-config.yaml file inside /etc/netplan/ and configured it with the updated IP. This ensured the static IP would remain after a reboot instead of reverting to DHCP. I also had to back up and delete the old 50-cloud-init.yaml file. Reboot and verify IP address once done.
+
+
+Install Splunk
+
+Navigate to Splunk download free trial of Splunk Enterprise
+
+Select Linux as OS
+
+Select ".deb" file
+
+Save into preferred directory
+
+Navigate back to Splunk VM
+
+Run: sudo apt-get install virtualbox
+
+this will display what options are available
+
+Run: sudo apt-get install virtualbox-guest-additions-iso
+
+Type "y"
+
+Click "Enter"
+
+Once installed, run: clear
+
+Navigate to Devices (on the top left of the screen) > Shared Folders > Shared Folders Settings
+
+Add a folder
+
+Folder Path: select path where we saved our Splunk installer
+
+Foler Name: leave as default (AD-Project in our case)
+
+Select: Read-only, Auto-mount, and Make Permenant
+
+Click "Ok"
+
+In Splunk, run: sudo reboot
+
+Once rebooted, log back in
+
+Run: sudo adduser vboxsf
+
+ex. sudo adduser username vboxsf
+
+If you receive a "group vboxsf does not exist" error, we may need some additional guest installations
+
+Run: sudo apt-get install virtualbox
+
+This will display what options are available
+
+Run: sudo apt-get install virtualbox-guest-utils
+
+Run: sudo reboot
+
+Run: sudo adduser username vboxsf
+
+User should be added to group now
+
+Create a new directory called "Share"
+
+Run: mkdir Share
+
+Run: ls
+
+Newly created directory "Share" should be listed
+
+<img src="https://i.imgur.com/lJkvpEx.png">
+
+Next, mount our shared folder onto our directory called "Share"
+
+Run: sudo mount -t vboxsf -o uid=1000,gid=1000 <directory name where .deb file is located> share/
+
+ex. sudo mount -t vboxsf -o uid=1000,gid=1000 AD-Project share/
+
+If you forget what your shared folder name is:
+
+Navigate to Devices > Shared Folders > Shared Folders Settings
+
+If you get an error, exit session and re-do steps
+
+Run: exit
+
+Error may occur because when you add your user into a new group, it may not reflect until you log out
+
+Run: ls -la
+
+Should now see that our "share" is now highlighted
+
+<img src="https://i.imgur.com/rEJvr94.png">
+
+Change directories into that share
+
+Run: cd share
+
+Run: clear
+
+Run: ls -la
+
+This will display all the files listed in this directory, including our Splunk Installer
+
+To install Splunk:
+
+Run: sudo dpkg -i splunk (hit tab to auto-complete)
+
+Once you see "Complete", should be good to change into directory where Splunk is located onto our server
+
+Change directory
+
+Run: cd /opt/splunk
+
+Run: ls -la
+
+Here you will notice that all users and groups belong to Splunk, which is a good thing as it limits the permissions to that user
+
+<img src="https://i.imgur.com/MyWKI0P.png">
+
+Change into user Splunk
+
+Run: sudo -u splunk bash
+
+Now, we are acting as user Splunk
+
+Run: cd bin
+
+Files listed in here are all binaries that Splunk can use
+
+the one that we will use is "./splunk start"
+
+Run: ./splunk start
+
+This will run the installer
+
+Click "q"
+
+Type "y" to accept
+
+Select an administrator username and password
+
+Once installation is completed:
+
+Run: exit
+
+To exit out of user Splunk
+
+Run:cd bin
+
+Run: sudo ./splunk enable boot-start -user splunk
+
+Whenever the VM reboots, Splunk will run with user splunk
+
+
+<h4>Configure Windows Machine</h4>
+
+
+In the Start Menu search, search "PC"
+
+Select "Properties"
+
+Select "Rename this PC"
+
+Rename to "target-PC"
+
+Select "Next"
+
+Select "Restart Now"
+
+Update static IP to 192.85.22.111
+
+Open command prompt
+
+Run: ipconfig
+
+this will display current IPv4
+
+Navigate to network icon at the bottom right of the window
+
+Select "Open Network & Internet Settings"
+
+Select "Change adapter options"
+
+Right click the adapter, Ethernet
+
+Select "Properties"
+
+Select "Internet Protocol Version 4 (TCP/IPv4)" > "Properties"
+
+Select "Use the following IP address"
+
+Configure as shown below:
+
+
+<img src="https://i.imgur.com/fTdgL5K.png">
+
+
+Run:  ipconfig to view updated IPv4
+
+<img src="https://i.imgur.com/YGDV90O.png">
+
+
+nstall Splunk Universal Forwarder on target-PC (Please note: installing Splunk Universal Forwarder and Sysmon on the ADDC VM will follow these exact same steps)
+
+Run Splunk VM (the following steps will not work if VM is not running)
+
+In the target-PC, open the browser and type 192.168.10.10:8000
+
+Splunk listens on port 8000
+
+In the target-PC, visit Splunk
+
+Create an account
+
+Select "Products"
+
+Select "Free Trials & Downloads"
+
+Scroll down to Universal Forwarder & select "Get My Free Download"
+
+Select the compatible OS
+
+Once download is completed, double click the msi file
+
+Select "Check this box to accept the License Agreemnent"
+
+Select "An on-premises Splunk Enterprise Instance"
+
+Select "Next"
+
+Choose your credentials
+
+For "Receiving Indexer", this is going to be our Splunk Server's IP address
+
+Hostname or IP: 192.168.10.10
+
+Default port for Splunk when receiving events is: 9997
+
+Select "Next"
+
+Select "Install"
+
+UniversalForwarder Setup pop up will flash orange
+
+Select "Finish"
+
+
+
+
+
 
 
 
