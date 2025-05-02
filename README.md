@@ -11,7 +11,7 @@ This lab provides a hands-on experience in setting up a virtualized environment 
 - Configuring Splunk for log monitoring and analysis.
 - Simulating cybersecurity attacks and analyzing telemetry data.
 
----
+
 
 ## Tools and Technologies
 
