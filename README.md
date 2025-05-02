@@ -1,4 +1,4 @@
-# Active Directory Cybersecurity Lab Project
+# Active Directory Project
 
 ## Project Overview
 
