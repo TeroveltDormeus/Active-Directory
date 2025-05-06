@@ -84,31 +84,7 @@ Details in [docs/Splunk-Config.md](docs/Splunk-Config.md).
 
 Details in [docs/Brute-Force.md](docs/Brute-Force.md).
 
----
 
-## Directory Structure
-
-```
-Active-Directory-Lab/
-├── README.md
-├── docs/
-│   ├── VM-Setup.md
-│   ├── Network-Config.md
-│   ├── AD-Setup.md
-│   ├── Splunk-Config.md
-│   ├── Brute-Force.md
-├── scripts/
-│   ├── powershell/
-│   └── bash/
-├── configs/
-│   ├── inputs.conf
-│   ├── netplan-config.yaml
-│   ├── sysmonconfig.xml
-├── images/
-│   ├── diagrams/
-│   ├── screenshots/
-└── LICENSE
-```
 
 ---
 
