@@ -41,7 +41,7 @@ The project uses the following tools and technologies:
    - **Windows Server 2022**: [Download ISO](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2022).
    - **Ubuntu Server**: [Download ISO](https://ubuntu.com/download/server).
 
-   Follow the detailed instructions in [docs/VM-Setup.md](docs/VM-Setup.md).
+   Follow the detailed instructions in [docs/VM-Setup.md](VM-Setup.md).
 
 ---
 
@@ -53,7 +53,7 @@ The project uses the following tools and technologies:
    - ADDC01: `192.85.22.105`
    - Kali Linux: `192.168.10.250`
 
-Details in [docs/Network-Config.md](docs/Network-Config.md).
+Details in [docs/Network-Config.md](Network-Config.md).
 
 ---
 
@@ -63,7 +63,7 @@ Details in [docs/Network-Config.md](docs/Network-Config.md).
 3. **Join Windows 10 machine to the domain**.
 4. **Create users**: e.g., Jenny Smith, Maria Rodriguez.
 
-Details in [docs/AD-Setup.md](docs/AD-Setup.md).
+Details in [docs/AD-Setup.md](AD-Setup.md).
 
 ---
 
@@ -73,7 +73,7 @@ Details in [docs/AD-Setup.md](docs/AD-Setup.md).
 3. Create an `endpoint` index in Splunk.
 4. Verify data ingestion and set up dashboards.
 
-Details in [docs/Splunk-Config.md](docs/Splunk-Config.md).
+Details in [docs/Splunk-Config.md](Splunk-Config.md).
 
 ---
 
@@ -82,7 +82,7 @@ Details in [docs/Splunk-Config.md](docs/Splunk-Config.md).
 2. Use `Hydra` on the Kali Linux machine to simulate an RDP brute force attack.
 3. Analyze telemetry in Splunk and create dashboards.
 
-Details in [docs/Brute-Force.md](docs/Brute-Force.md).
+Details in [docs/Brute-Force.md](Brute-Force.md).
 
 
 
