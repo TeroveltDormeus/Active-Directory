@@ -89,7 +89,6 @@ Details in [docs/Brute-Force.md](Brute-Force.md).
 ---
 
 ## References
-- **Active Directory Project by MyDFIR**: [YouTube Tutorial](https://www.youtube.com/c/MyDFIR)
 - **Splunk Documentation**: [Splunk Docs](https://docs.splunk.com/)
 - **Sysmon Configuration**: [Sysmon GitHub](https://github.com/SwiftOnSecurity/sysmon-config)
 
